@@ -12,3 +12,4 @@ C:\Antonella\Games\Proyecto\Maze-Runners\obj\Debug\net8.0\refint\Maze-Runners.dl
 C:\Antonella\Games\Proyecto\Maze-Runners\obj\Debug\net8.0\Maze-Runners.pdb
 C:\Antonella\Games\Proyecto\Maze-Runners\obj\Debug\net8.0\Maze-Runners.genruntimeconfig.cache
 C:\Antonella\Games\Proyecto\Maze-Runners\obj\Debug\net8.0\ref\Maze-Runners.dll
+C:\Antonella\Games\Proyecto\Maze-Runners\obj\Debug\net8.0\Maze-Runners.sourcelink.json

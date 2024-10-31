@@ -6,6 +6,8 @@ class Program
 {
     static void Main(string[] args)
     {
+
+
         while (true)
         {
             Console.Clear();
@@ -16,7 +18,7 @@ class Program
                 case ConsoleKey.N:
                 case ConsoleKey.Enter:
                     NewGame();
-                    
+
                     break;
 
                 case ConsoleKey.P:
@@ -54,17 +56,73 @@ class Program
         sb1.AppendLine("que nadie ha podido salir. Para hacer el reto más divertido, Meliodas sugirió que podían atacarse entre sí, mas no mortalmente, y que solamente usaran dos");
         sb1.AppendLine("habilidades: una de defensa y otra de ataque. Todos aceptaron y se fueron por su lado no sin antes ser advertidos de que en el laberinto habían trampas.");
         System.Console.Write(sb1);
-        Console.ReadLine();
+        Console.ReadKey();
+        Console.Clear();
     }
+    const int Width = 21;
+    const int Height = 21;
+    static int[,] maze = new int[Width, Height];
     static void NewGame()
     {
         Lore();
-        Console.ReadKey();
-        Console.Clear();
-        
 
+        for (int i = 0; i < Width; i++)
+        {
+            for (int j = 0; j < Height; j++)
+            {
+                maze[i, j] = 1;
+            }
+        }
+        int a = rdm.Next(1, Width-2);
+        int b = rdm.Next(1,Height-2);
+        maze[a, b] = 0;
+        GenerateMaze(a,b);
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                System.Console.Write(maze[x,y]==1? "⬜": "⬛");
+            }
+            System.Console.WriteLine();
+        }
+        System.Console.WriteLine();
+        System.Console.ReadLine();
     }
-    static void GetRandom()
+    static Random rdm = new Random();
+    static void GenerateMaze(int x, int y)
     {
+
+        int[,] directions = new int[,]
+        {
+            {0,2},//Up
+            {0,-2},// Down
+            {2,0},//Right
+            {-2,0}//Left
+        };
+        //Randomizar direcciones
+        for (int i = 0; i < directions.GetLength(0); i++)
+        {
+            int j = rdm.Next(directions.GetLength(0));
+            var temp = directions[i, 0];
+            directions[i, 0] = directions[j, 0];
+            directions[j, 0] = temp;
+
+            temp = directions[i, 1];
+            directions[i, 1] = directions[j, 1];
+            directions[j, 1] = temp;
+        }
+        //Cavar caminos
+        for (int i = 0; i < directions.GetLength(0); i++)
+        {
+            int nx = x + directions[i, 0];
+            int ny = y + directions[i, 1];
+            if (nx > 0 && nx < Width && ny > 0 && ny < Height && maze[nx, ny] == 1)
+            {
+                maze[nx, ny] = 0;
+                maze[x+directions[i,0]/2, y+directions[i,1]/2] = 0;
+                GenerateMaze(nx, ny);
+            }
+
+        }
     }
 }
