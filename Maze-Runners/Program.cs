@@ -64,6 +64,7 @@ class Program
     static int[,] maze = new int[Width, Height];
     static void NewGame()
     {
+        Console.Clear();
         Lore();
 
         for (int i = 0; i < Width; i++)
@@ -73,15 +74,17 @@ class Program
                 maze[i, j] = 1;
             }
         }
-        int a = rdm.Next(1, Width-2);
-        int b = rdm.Next(1,Height-2);
+        int a = rdm.Next(1, Width - 2);
+        int b = rdm.Next(1, Height - 2);
         maze[a, b] = 0;
-        GenerateMaze(a,b);
+        GenerateMaze(a, b);
+        StartFinish(0,1);
+        StartFinish(20,19);
         for (int y = 0; y < Height; y++)
         {
             for (int x = 0; x < Width; x++)
             {
-                System.Console.Write(maze[x,y]==1? "⬜": "⬛");
+                System.Console.Write(maze[x, y] == 1 ? "⬜" : "⬛");
             }
             System.Console.WriteLine();
         }
@@ -119,10 +122,22 @@ class Program
             if (nx > 0 && nx < Width && ny > 0 && ny < Height && maze[nx, ny] == 1)
             {
                 maze[nx, ny] = 0;
-                maze[x+directions[i,0]/2, y+directions[i,1]/2] = 0;
+                maze[x + directions[i, 0] / 2, y + directions[i, 1] / 2] = 0;
                 GenerateMaze(nx, ny);
             }
 
         }
+    }
+    static void StartFinish(int a, int b)
+    {
+        int x = rdm.Next(1, Height - 1);
+        
+            
+            if (maze[b, x] == 0)
+            {
+                maze[a, x] = 0;
+                
+            }
+        
     }
 }
