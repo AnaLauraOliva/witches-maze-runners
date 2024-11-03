@@ -61,37 +61,42 @@ class Program
     }
     const int Width = 21;
     const int Height = 21;
-    static int[,] maze = new int[Width, Height];
+    static int[,] maze = new int[Height, Width];
+    static Random rdm = new Random();
+
     static void NewGame()
     {
         Console.Clear();
         Lore();
-
-        for (int i = 0; i < Width; i++)
-        {
-            for (int j = 0; j < Height; j++)
-            {
-                maze[i, j] = 1;
-            }
-        }
-        int a = rdm.Next(1, Width - 2);
-        int b = rdm.Next(1, Height - 2);
+        InitializateMaze();
+        int a = GetRandom(Width);
+        int b = GetRandom(Height);
         maze[a, b] = 0;
         GenerateMaze(a, b);
-        StartFinish(0,1);
-        StartFinish(20,19);
-        for (int y = 0; y < Height; y++)
-        {
-            for (int x = 0; x < Width; x++)
-            {
-                System.Console.Write(maze[x, y] == 1 ? "⬜" : "⬛");
-            }
-            System.Console.WriteLine();
-        }
-        System.Console.WriteLine();
+        StartFinish(rdm.Next(1, (Height - 1) / 2), 0, 1);
+        StartFinish(rdm.Next((Height - 1) / 2, 20), 20, 19);
+        PrintMaze();
         System.Console.ReadLine();
     }
-    static Random rdm = new Random();
+    static int GetRandom(int max)
+    {
+        int n = rdm.Next(1, max - 1);
+        if (n % 2 != 0)
+        {
+            return n;
+        }
+        return n - 1;
+    }
+    static void InitializateMaze()
+    {
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                maze[x, y] = 1;
+            }
+        }
+    }
     static void GenerateMaze(int x, int y)
     {
 
@@ -106,7 +111,7 @@ class Program
         for (int i = 0; i < directions.GetLength(0); i++)
         {
             int j = rdm.Next(directions.GetLength(0));
-            var temp = directions[i, 0];
+            int temp = directions[i, 0];
             directions[i, 0] = directions[j, 0];
             directions[j, 0] = temp;
 
@@ -128,16 +133,30 @@ class Program
 
         }
     }
-    static void StartFinish(int a, int b)
+    static int StartFinish(int x, int i, int j)
     {
-        int x = rdm.Next(1, Height - 1);
-        
-            
-            if (maze[b, x] == 0)
+        while (true)
+        {
+            if (x < 1) x = Height - 1;
+            if (x > Height - 1) x = 1;
+            if (maze[j, x] == 0)
             {
-                maze[a, x] = 0;
-                
+                maze[i, x] = 0;
+                break;
             }
-        
+            x--;
+        }
+        return i;
+    }
+    static void PrintMaze()
+    {
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                System.Console.Write(maze[x, y] == 1 ? "|||" : "   ");
+            }
+            System.Console.WriteLine();
+        }
     }
 }
