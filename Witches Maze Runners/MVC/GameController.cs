@@ -40,26 +40,32 @@ namespace Game.Contoller
         {
             if (DifficultySelection() && CharactersSelection(gameVisuals.PlayersCount()))
             {
+                Console.Clear();
+                gameVisuals.GameHistory();
                 List<string> Winners = new List<string>();
                 int remainingMoves = gameModel!.GetSpeed();
+                bool firstTurn = true;
                 while (Winners.Count != NumberOfPlayers / 2)
                 {
-                    if (gameModel!.GetCurrentTurn() < NumberOfPlayers && remainingMoves == gameModel!.GetSpeed())
+                    if (firstTurn && remainingMoves == gameModel!.GetSpeed())
                         gameModel.IniPlayer();
                     gameVisuals.PrintMaze(gameModel);
                     System.Console.WriteLine($"Movimientos restantes: {remainingMoves}");
                     gameVisuals.PrintSMS(gameModel.Narration);
                     int MoveCode = gameModel.MoveOrHability();
                     if (MoveCode == 1) remainingMoves--;
-                    else if (MoveCode == 0) { remainingMoves = 0; }
+                    else if (MoveCode == 0)
+                    { remainingMoves = 0; }
                     if (gameModel.GameWin())
                     {
                         Winners.Add(gameModel.DeletePlayer());
-                        remainingMoves = 0;
+                        remainingMoves = gameModel!.GetSpeed();
+                        continue;
                     }
-                    if (remainingMoves == 0 || remainingMoves > gameModel.GetSpeed())
+                    if (remainingMoves == 0|| remainingMoves >= gameModel.GetSpeed())
                     {
                         gameModel.NextTurn();
+                        if(gameModel.GetCurrentTurn() == 0) {firstTurn = false;}
                         remainingMoves = gameModel!.GetSpeed();
                     }
 

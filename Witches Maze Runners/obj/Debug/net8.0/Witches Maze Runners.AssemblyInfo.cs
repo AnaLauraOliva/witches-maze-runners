@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Witches Maze Runners")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3304a0fca8aefea7a5b9305a1860a73462f21808")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6456002e6c3dd5cbcd5762388298406997dbc8e2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Witches Maze Runners")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Witches Maze Runners")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

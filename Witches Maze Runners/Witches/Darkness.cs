@@ -2,7 +2,6 @@ namespace Game.Model.WitchesAndPlayersNamespace
 {
     class Darkness : Witches
     {
-        private bool CanAttack;
         public Darkness()
         {
             WitchType = "Bruja de Oscuridad";
@@ -10,16 +9,10 @@ namespace Game.Model.WitchesAndPlayersNamespace
             AttackSkill = "Muerte Súbita";
             DefenseSkill = "Pacto con el Diablo";
             AttackRange = 2;
-            CanAttack = true;
         }
         public override int Attack()
         {
-            if (CanAttack)
-            {
-                CanAttack = false;
-                return 100;
-            }
-            return 0;
+            return 100;
         }
         public override int Defense()
         {
@@ -34,9 +27,6 @@ namespace Game.Model.WitchesAndPlayersNamespace
         }
         public override bool IsImmune()=> false;
         public override void RecoverSpeed()=>Speed = 6;
-        public override void DefenseUsed()
-        {
-            CanAttack = true;
-        }
+        public override void DefenseUsed(){}
     }
 }
