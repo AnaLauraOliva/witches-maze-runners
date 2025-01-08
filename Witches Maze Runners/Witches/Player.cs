@@ -104,7 +104,7 @@ namespace Game.Model
                     Narration.Add($"{Name} cayó en una trampa de daño");
                     break;
                 case 4:
-                    HP += HP == 100 ? 0 : HP > 90 ? 100 - HP : 10;
+                    HP = HP > 90 ? 100 : HP+10;
                     Narration.Add($"{Name} recuperó puntos de vida, HP actual:{HP}");
                     break;
                 case 5:
