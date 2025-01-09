@@ -23,7 +23,7 @@ Personajes:
       -Tiempo de enfriamiento: 3 turnos
     > Bendición de la Madre Tierra:
       -Tipo de Habilidad: Defensa
-      -Efecto: Quita totalmente el efecto de parálisis
+      -Efecto: Evita todos los ataques que resten menos de 50 puntos de vida
       -Costo de activación: Resta dos puntos de velocidad del personaje por tres turnos
   * Velocidad: 5 casillas
   * Puntos de vida: 100 hp
@@ -37,7 +37,7 @@ Personajes:
       -Tiempo de enfriamiento: 3 turnos
     > Danza del Dios del Fuego:
       -Tipo de Habilidad: Defensa
-      -Efecto: Evita todos los ataques que resten menos de 50 puntos de vida
+      -Efecto: Quita totalmente el efecto de parálisis
       -Costo de activación: Resta un punto de velocidad del personaje por tres turnos
   * Velocidad: 4 casillas
   * Puntos de vida: 100 hp

@@ -21,17 +21,19 @@ namespace Game.Model.WitchesAndPlayersNamespace
             }
             return 0;
         }
-        public override int Defense()
+        public override (int,bool) Defense()
         {
-            if (Speed>3&&CoolingTime[(int) CoolingTimeCodes.Defense] == 3)
+            if (Speed>3&&CoolingTime[(int) CoolingTimeCodes.Defense] == 0)
             {
                 Immunity = true;
                 CoolingTime[(int) CoolingTimeCodes.Defense] = 3;
                 Speed = 3;
+                return (0,true);
             }
-            return 0;
+            return (0,false);
         }
         public override bool IsImmune()=>Immunity;
+        public override bool IsDefrost() => false;
         public override void RecoverSpeed()=> Speed = 5;
         public override void DefenseUsed()=> Immunity = false;
     }

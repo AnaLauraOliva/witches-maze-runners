@@ -21,8 +21,9 @@ namespace Game.Model.WitchesAndPlayersNamespace
         public void retoreSpeedTreasure()=>CoolingTime[(int)CoolingTimeCodes.Defense]=0;
         public bool DefenseCoolingTimeOver()=>CoolingTime[(int)CoolingTimeCodes.Defense]==0;
         public abstract int Attack();
-        public abstract int Defense();
+        public abstract (int,bool) Defense();
         public abstract bool IsImmune();
+        public abstract bool IsDefrost();
         public abstract void RecoverSpeed();
         public abstract void DefenseUsed();
         public void LossOfSpeed()=>Speed = 1;

@@ -10,7 +10,7 @@ namespace Game.Model
             LossOfSpeed = 1
         }
         public string Name { get; private set; }
-        public Witches Witch{ get; private set; }
+        public Witches Witch { get; private set; }
         private int HP;
         private (int, int) position;
         private int[] EffectsDuration = new int[2];
@@ -21,7 +21,7 @@ namespace Game.Model
             HP = 100;
 
         }
-        public bool Effects()=>EffectsDuration[(int)EffectsDurationCodes.Freeze] == 0;
+        public bool Effects() => EffectsDuration[(int)EffectsDurationCodes.Freeze] == 0;
         public void ReduceEffects()
         {
             if (EffectsDuration[0] > 0) EffectsDuration[0] -= 1;
@@ -34,8 +34,8 @@ namespace Game.Model
         public bool Attack(List<Player> players)
         {
             int damage = Witch.Attack();
-            if (damage == 100&&this.HP>50) this.HP -= 50;
-            else if(damage == 100&&this.HP<=50) return false;
+            if (damage == 100 && this.HP > 50) this.HP -= 50;
+            else if (damage == 100 && this.HP <= 50) return false;
             if (damage > 0)
             {
                 for (int i = 0; i < players.Count; i++)
@@ -54,10 +54,11 @@ namespace Game.Model
             }
             return false;
         }
-        public void Defense()
+        public bool Defense()
         {
-            int defense = Witch.Defense();
-            if (defense != 0) HP = defense;
+            (int, bool) defense = Witch.Defense();
+            if (defense.Item1 != 0) HP = defense.Item1;
+            return defense.Item2;
         }
         private bool Conditions(Player other)
         {
@@ -73,7 +74,7 @@ namespace Game.Model
             position.Item2 = Col;
         }
         public (int, int) GetPlayerPosition() => position;
-        public bool PlayerDeath( List<string> Narration)
+        public bool PlayerDeath(List<string> Narration)
         {
             if (HP <= 0)
             {
@@ -89,10 +90,14 @@ namespace Game.Model
             switch (Effect)
             {
                 case 0:
-                return false;
+                    return false;
                 case 1:
-                    EffectsDuration[(int)EffectsDurationCodes.Freeze] = 3;
-                    Narration.Add($"{Name} cayó en una trampa de congelamiento");
+                    if (!Witch.IsDefrost())
+                    {
+                        EffectsDuration[(int)EffectsDurationCodes.Freeze] = 3;
+                        Narration.Add($"{Name} cayó en una trampa de congelamiento");
+                    }
+                    else{Narration.Add($"{Name} usó su habilidad para evitar el congelamiento");}
                     break;
                 case 2:
                     EffectsDuration[(int)EffectsDurationCodes.LossOfSpeed] = 3;
@@ -104,7 +109,7 @@ namespace Game.Model
                     Narration.Add($"{Name} cayó en una trampa de daño");
                     break;
                 case 4:
-                    HP = HP > 90 ? 100 : HP+10;
+                    HP = HP > 90 ? 100 : HP + 10;
                     Narration.Add($"{Name} recuperó puntos de vida, HP actual:{HP}");
                     break;
                 case 5:

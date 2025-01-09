@@ -21,63 +21,30 @@ namespace Game.Model
         public Cells[,] GetMaze() => maze.maze;
         public void IniPlayer() => players[CurrentTurn].UpdatePlayerPosition(gameboard.PutInitialPosition(), 0);
         private void IniPlayer(int index) => players[index].UpdatePlayerPosition(gameboard.PutInitialPosition(), 0);
-        public int MoveOrHability()
+        public bool HasEffects() => players[CurrentTurn].Effects();
+        public void Attack()
         {
-            if (players[CurrentTurn].Effects())
+
+            if (players[CurrentTurn].Attack(players))
             {
-
-                (int, int)[] Directions = { (-1, 0), (1, 0), (0, -1), (0, 1) };
-                while (true)
+                Narration.Add(players[CurrentTurn].Witch.AttackSkill!);
+                for (int i = 0; i < players.Count; i++)
                 {
-                    ConsoleKey key = Console.ReadKey(true).Key;
-                    switch (key)
+                    if (players[i].PlayerDeath(Narration))
                     {
-                        case ConsoleKey.A:
-                        case ConsoleKey.LeftArrow:
-                            if (!MakeAValidMove(Directions[2]))
-                                continue;
-                            break;
-                        case ConsoleKey.D:
-                        case ConsoleKey.RightArrow:
-                            if (!MakeAValidMove(Directions[3]))
-                                continue;
-                            break;
-                        case ConsoleKey.W:
-                        case ConsoleKey.UpArrow:
-                            if (!MakeAValidMove(Directions[0]))
-                                continue;
-                            break;
-                        case ConsoleKey.S:
-                        case ConsoleKey.DownArrow:
-                            if (!MakeAValidMove(Directions[1]))
-                                continue;
-                            break;
-                        case ConsoleKey.L:
-                            Narration.Add(players[CurrentTurn].Witch.AttackSkill!);
-                            players[CurrentTurn].Attack(players);
-                            for (int i = 0; i < players.Count; i++)
-                            {
-                                if (players[i].PlayerDeath(Narration))
-                                {
-                                    IniPlayer(i);
-                                }
-                            }
-                            return 2;
-                        case ConsoleKey.K:
-                            players[CurrentTurn].Defense();
-                            Narration.Add(players[CurrentTurn].Witch.DefenseSkill!);
-                            return 2;
-                        default:
-                            continue;
+                        IniPlayer(i);
                     }
-
-                    return 1;
                 }
             }
-
-            players[CurrentTurn].ReduceEffects();
-            return 0;
         }
+        public void Defense()
+        {
+            if (players[CurrentTurn].Defense())
+            {
+                Narration.Add(players[CurrentTurn].Witch.DefenseSkill!);
+            }
+        }
+        public void ReduceEffects() => players[CurrentTurn].ReduceEffects();
         public bool GameWin() => players[CurrentTurn].GetPlayerPosition().Item1 == maze.endCell && players[CurrentTurn].GetPlayerPosition().Item2 == maze.maze.GetLength(1) - 1;
         public string DeletePlayer()
         {
@@ -86,14 +53,13 @@ namespace Game.Model
             if (CurrentTurn >= players.Count) CurrentTurn = 0;
             return name;
         }
-        private bool MakeAValidMove((int, int) Directions)
+        public bool MakeAValidMove((int, int) Directions)
         {
             (int, int) PlayerPosition = players[CurrentTurn].GetPlayerPosition();
             PlayerPosition.Item1 += Directions.Item1;
             PlayerPosition.Item2 += Directions.Item2;
             if (gameboard.VerifyAvailability(PlayerPosition))
             {
-                players[CurrentTurn].ReduceEffects();
                 players[CurrentTurn].UpdatePlayerPosition(PlayerPosition.Item1, PlayerPosition.Item2);
                 if (gameboard.FallIntoTrap(PlayerPosition))
                 {
@@ -112,7 +78,7 @@ namespace Game.Model
         public void AddCharacter(Player player) => players.Add(player);
         public int GetCurrentTurn() => CurrentTurn;
         public int GetSpeed() => players[CurrentTurn].Witch.Speed;
-        public void NextTurn()=>CurrentTurn = (CurrentTurn + 1) % players.Count; 
+        public void NextTurn() => CurrentTurn = (CurrentTurn + 1) % players.Count;
         public List<Player> GetPlayers() => players;
     }
 }

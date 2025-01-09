@@ -10,6 +10,7 @@ namespace Game.Contoller
         private GameVisuals gameVisuals = new GameVisuals();
         public void Start()
         {
+            gameVisuals.SelectVisual();
             while (true)
             {
                 Console.Clear();
@@ -49,23 +50,21 @@ namespace Game.Contoller
                 {
                     if (firstTurn && remainingMoves == gameModel!.GetSpeed())
                         gameModel.IniPlayer();
-                    gameVisuals.PrintMaze(gameModel);
-                    System.Console.WriteLine($"Movimientos restantes: {remainingMoves}");
-                    gameVisuals.PrintSMS(gameModel.Narration);
-                    int MoveCode = gameModel.MoveOrHability();
-                    if (MoveCode == 1) remainingMoves--;
-                    else if (MoveCode == 0)
-                    { remainingMoves = 0; }
+                    Print(remainingMoves);
+                    bool MoveCode = MoveOrHability(remainingMoves);
+                    if (MoveCode) remainingMoves--;
+                    else { remainingMoves = 0; }
                     if (gameModel.GameWin())
                     {
                         Winners.Add(gameModel.DeletePlayer());
                         remainingMoves = gameModel!.GetSpeed();
                         continue;
                     }
-                    if (remainingMoves == 0|| remainingMoves >= gameModel.GetSpeed())
+                    if (remainingMoves == 0 || remainingMoves >= gameModel.GetSpeed())
                     {
+                        gameModel.ReduceEffects();
                         gameModel.NextTurn();
-                        if(gameModel.GetCurrentTurn() == 0) {firstTurn = false;}
+                        if (gameModel.GetCurrentTurn() == 0) { firstTurn = false; }
                         remainingMoves = gameModel!.GetSpeed();
                     }
 
@@ -73,6 +72,62 @@ namespace Game.Contoller
                 }
                 gameVisuals.PrintWinners(Winners);
             }
+        }
+        private void Print(int remainingMoves)
+        {
+
+            gameVisuals.PrintMaze(gameModel!);
+            System.Console.WriteLine($"Movimientos restantes: {remainingMoves}");
+            gameVisuals.PrintSMS(gameModel!.Narration);
+        }
+        private bool MoveOrHability(int remainingMoves)
+        {
+            if (gameModel!.HasEffects())
+            {
+
+                (int, int)[] Directions = { (-1, 0), (1, 0), (0, -1), (0, 1) };
+                while (true)
+                {
+                    ConsoleKey key = Console.ReadKey(true).Key;
+                    switch (key)
+                    {
+                        case ConsoleKey.A:
+                        case ConsoleKey.LeftArrow:
+                            if (!gameModel.MakeAValidMove(Directions[2]))
+                                continue;
+                            break;
+                        case ConsoleKey.D:
+                        case ConsoleKey.RightArrow:
+                            if (!gameModel.MakeAValidMove(Directions[3]))
+                                continue;
+                            break;
+                        case ConsoleKey.W:
+                        case ConsoleKey.UpArrow:
+                            if (!gameModel.MakeAValidMove(Directions[0]))
+                                continue;
+                            break;
+                        case ConsoleKey.S:
+                        case ConsoleKey.DownArrow:
+                            if (!gameModel.MakeAValidMove(Directions[1]))
+                                continue;
+                            break;
+                        case ConsoleKey.L:
+                            gameModel.Attack();
+
+                            Print(remainingMoves);
+                            continue;
+                        case ConsoleKey.K:
+                            gameModel.Defense();
+
+                            Print(remainingMoves);
+                            continue;
+                        default:
+                            continue;
+                    }
+                    return true;
+                }
+            }
+            return false;
         }
         private bool DifficultySelection()
         {
