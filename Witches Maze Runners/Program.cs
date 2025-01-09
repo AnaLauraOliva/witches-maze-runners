@@ -7,7 +7,6 @@ namespace WitchesMazeRunners
         {
            GameController controller = new GameController();
            controller.Start();
-           
         }
         
     }
