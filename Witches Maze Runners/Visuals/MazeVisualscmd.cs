@@ -17,25 +17,25 @@ namespace Game.Visuals
                 {
                     switch(Gameboard[i,j])
                     {
-                        case " * ":
+                        case "**":
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         break;
-                        case " F ":
+                        case "FF":
                         Console.ForegroundColor = ConsoleColor.DarkRed;
                         break;
-                        case " D ":
+                        case "DD":
                         Console.ForegroundColor = ConsoleColor.DarkMagenta;
                         break;
-                        case " L ":
+                        case "LL":
                         Console.ForegroundColor = ConsoleColor.White;
                         break;
-                        case " A ":
+                        case "AA":
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                         break;
-                        case " W ":
+                        case "WW":
                         Console.ForegroundColor = ConsoleColor.DarkBlue;
                         break;
-                        case " E ":
+                        case "EE":
                         Console.ForegroundColor = ConsoleColor.DarkGreen;
                         break;
                         default:
@@ -55,7 +55,7 @@ namespace Game.Visuals
             {
                 for (int j = 0; j < maze.GetLength(1); j++)
                 {
-                    gameboard[i,j]=maze[i,j].Traps?" * ":maze[i,j].Available?"   ":"|||";
+                    gameboard[i,j]=maze[i,j].Traps?"**":maze[i,j].Available?"  ":"||";
                 }
             }
             for (int i = 1; i <= players.Count; i++)
@@ -71,17 +71,17 @@ namespace Game.Visuals
             switch (player.Witch.WitchType)
             {
                 case "Bruja de Fuego":
-                    return " F ";
+                    return "FF";
                 case "Bruja de Oscuridad":
-                    return " D ";
+                    return "DD";
                 case "Bruja de Luz":
-                    return " L ";
+                    return "LL";
                 case "Bruja de Aire":
-                    return " A ";
+                    return "AA";
                 case "Bruja de Agua":
-                    return " W ";
+                    return "WW";
                 case "Bruja de Tierra":
-                    return " E ";
+                    return "EE";
             }
             return "";
         }
