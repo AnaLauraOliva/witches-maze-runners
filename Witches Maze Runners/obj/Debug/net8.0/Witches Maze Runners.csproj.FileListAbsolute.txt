@@ -27,3 +27,6 @@ C:\Antonella\Games\Proyecto\Witches Maze Runners\obj\Debug\net8.0\refint\Witches
 C:\Antonella\Games\Proyecto\Witches Maze Runners\obj\Debug\net8.0\Witches Maze Runners.pdb
 C:\Antonella\Games\Proyecto\Witches Maze Runners\obj\Debug\net8.0\Witches Maze Runners.genruntimeconfig.cache
 C:\Antonella\Games\Proyecto\Witches Maze Runners\obj\Debug\net8.0\ref\Witches Maze Runners.dll
+C:\Antonella\Games\Proyecto\Witches Maze Runners\bin\Debug\net8.0\Spectre.Console.dll
+C:\Antonella\Games\Proyecto\Witches Maze Runners\obj\Debug\net8.0\Witches Maze Runners.csproj.AssemblyReference.cache
+C:\Antonella\Games\Proyecto\Witches Maze Runners\obj\Debug\net8.0\Witches .0AC3D22A.Up2Date

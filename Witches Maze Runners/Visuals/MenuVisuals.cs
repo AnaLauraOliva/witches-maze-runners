@@ -2,110 +2,61 @@ using System.Reflection.PortableExecutable;
 using System.Xml.Serialization;
 using Game.Model;
 using Game.Model.WitchesAndPlayersNamespace;
+using Spectre.Console;
 namespace Game.Visuals
 {
     internal class MenuVisuals
     {
         public int? SelectNumberOfPlayers()
         {
-            while (true)
-            {
-                Console.Clear();
-                System.Console.WriteLine("Selecciona la cantidad de jugadores o presiona 7 para salir al menu principal, recuerda que son de dos a seis jugadores: ");
-                if (int.TryParse(Console.ReadKey(true).KeyChar.ToString(), out int NumberOfPlayers)
-                && NumberOfPlayers > 1 && NumberOfPlayers < 7) return NumberOfPlayers;
-                else if (NumberOfPlayers == 7) return null;
-                System.Console.WriteLine("Opción no válida");
-                Thread.Sleep(1000);
-            }
+            Console.Clear();
+            List<(string, int?)> options = new List<(string, int?)>() { ("2 Jugadores", 2), ("3 Jugadores", 3), ("4 Jugadores", 4), ("5 Jugadores", 5), ("6 Jugadores", 6), ("Volver al menú principal", null) };
+            string NumberOfPlayers = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                .Title("[lightyellow3][underline][bold]Selecciona la cantidad de jugadores:[/][/][/]")
+                .PageSize(10)
+                .AddChoices(options.Select(x => x.Item1))
+            );
+            return options.FirstOrDefault(x => x.Item1 == NumberOfPlayers).Item2;
         }
-        public (int,Player?) AddPlayer(bool[] AvailableCharacters)
+        public (int, Player?) AddPlayer(List<(string, Witches)> witches)
         {
             Console.Clear();
-            System.Console.WriteLine("Introduce el nombre de tu jugador");
+            AnsiConsole.Markup("[lightyellow3][underline][bold]Introduce el nombre de tu jugador:[/][/][/]");
+            System.Console.WriteLine();
             string? name = Console.ReadLine();
             name = name == null ? "Jugador sin nombre" : name;
-            Player? player;
-            while (true)
-            {
-                Console.Clear();
-                System.Console.Write("Selección de ");
-                PrintWitchesInfo();
-                ConsoleKey key = Console.ReadKey(true).Key;
-                switch (key)
-                {
-                    case ConsoleKey.D1:
-                    case ConsoleKey.NumPad1:
-                        player = AddPlayers(AvailableCharacters, 0, name, new Water());
-                        if (player != null) return (0,player);
-                        break;
-                    case ConsoleKey.D2:
-                    case ConsoleKey.NumPad2:
-                        player = AddPlayers(AvailableCharacters, 1, name, new Earth());
-                        if (player != null) return (1,player);
-                        break;
-                    case ConsoleKey.D3:
-                    case ConsoleKey.NumPad3:
-                        player = AddPlayers(AvailableCharacters, 2, name, new Fire());
-                        if (player != null) return (2,player);
-                        break;
-                    case ConsoleKey.D4:
-                    case ConsoleKey.NumPad4:
-                        player = AddPlayers(AvailableCharacters, 3, name, new Air());
-                        if (player != null) return (3,player);
-                        break;
-                    case ConsoleKey.D5:
-                    case ConsoleKey.NumPad5:
-                        player = AddPlayers(AvailableCharacters, 4, name, new Darkness());
-                        if (player != null) return (4,player);
-                        break;
-                    case ConsoleKey.D6:
-                    case ConsoleKey.NumPad6:
-                        player = AddPlayers(AvailableCharacters, 5, name, new Light());
-                        if (player != null) return (5,player);
-                        break;
-                    case ConsoleKey.D7:
-                    case ConsoleKey.NumPad7:
-                        return (6,null);
-                    default:
-                        System.Console.WriteLine("Opción no válida");
-                        Thread.Sleep(1000);
-                        break;
-                }
-            }
-        }
-        private Player? AddPlayers(bool[] AvailableCharacter, int index, string name, Witches witches)
-        {
-            if (AvailableCharacter[index])
-            {
-                return new Player(name, witches);
-            }
-            else
-            {
-                System.Console.WriteLine("Esta bruja ya ha sido seleccionada");
-                Thread.Sleep(1000);
-            }
-            return null;
+            Console.Clear();
+            string witchName = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                .Title("[lightyellow3][underline][bold]Selección de Personajes:[/][/][/]")
+                .PageSize(10)
+                .AddChoices(witches.Select(x => x.Item1))
+            );
+            Witches witch = witches.FirstOrDefault(x => x.Item1 == witchName).Item2;
+            return (witches.IndexOf((witchName, witch)), new Player(name, witch));
         }
         public int SetDifficultyMenu()
         {
-            while (true)
+            AnsiConsole.Markup("[lightyellow3][underline][bold]Selecciona la dificultad:[/][/][/]");
+            System.Console.WriteLine();
+            System.Console.WriteLine();
+            List<(string, int)> values = new List<(string, int)>()
             {
-                Console.Clear();
-                PrintDifficulty();
-                if (int.TryParse(Console.ReadKey(true).KeyChar.ToString(), out int difficulty) && difficulty > 0 && difficulty < 5) return difficulty;
-                else if (difficulty == 5) break;
-            }
-            return 5;
-        }
-        private void PrintDifficulty()
-        {
-            System.Console.WriteLine("Selecciona la dificultad:");
-            System.Console.WriteLine("   Nivel        |   Dimensión del laberinto(LargoxAncho)");
-            System.Console.WriteLine("1- Pincipiante  |   21x21");
-            System.Console.WriteLine("2- Normal       |   29x31");
-            System.Console.WriteLine("3- Difícil      |   29x41");
-            System.Console.WriteLine("4- Maestro      |   29x61");
+                 ("Pincipiante  |   21x21",1),
+                 ("Normal       |   29x31",2),
+                 ("Difícil      |   29x41",3),
+                 ("Maestro      |   29x61",4),
+                 ("Volver al menú principal",5)};
+
+            string prompt = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[lightyellow3][underline][bold]Nivel          |   Dimensión del laberinto(LargoxAncho)[/][/][/]")
+                    .PageSize(10)
+                    .AddChoices(values.Select(x => x.Item1))
+
+            );
+            return values.FirstOrDefault(x => x.Item1 == prompt).Item2;
         }
         public void Characters()
         {
@@ -113,43 +64,40 @@ namespace Game.Visuals
             {
                 Console.Clear();
                 string[] Characters = LoadCharacters();
-                PrintWitchesInfo();
-                ConsoleKeyInfo key = Console.ReadKey();
-                switch (key.Key)
+                List<(string,int)> Choices = new List<(string,int)>(){("[blue1]Bruja de Agua[/]",1), 
+            ("[green4]Bruja de Tierra[/]",2), 
+            ("[orangered1]Bruja de Fuego[/]",3),
+            ("[grey66]Bruja de Aire[/]",4), 
+            ("[purple_1]Bruja de Oscuridad[/]",5), 
+            ("[white]Bruja de Luz[/]",6),
+            ("Volver al menú principal",7)};
+            string Choice = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                .Title("[lightyellow3][underline][bold]Personajes:[/][/][/]")
+                .PageSize(10)
+                .AddChoices(Choices.Select(x => x.Item1))
+            );
+                switch (Choices.FirstOrDefault(x=>x.Item1 == Choice).Item2)
                 {
-                    case ConsoleKey.D1:
-                    case ConsoleKey.NumPad1:
-                        System.Console.WriteLine();
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        DisplayWitch(2, 16, Characters);
+                    case 1:
+                        DisplayWitch(2, 16, Characters, "[blue1]");
                         break;
-                    case ConsoleKey.D2:
-                    case ConsoleKey.NumPad2:
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        DisplayWitch(16, 30, Characters);
+                    case 2:
+                        DisplayWitch(16, 30, Characters, "[green4]");
                         break;
-                    case ConsoleKey.D3:
-                    case ConsoleKey.NumPad3:
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        DisplayWitch(30, 44, Characters);
+                    case 3:
+                        DisplayWitch(30, 44, Characters, "[orangered1]");
                         break;
-                    case ConsoleKey.D4:
-                    case ConsoleKey.NumPad4:
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        DisplayWitch(44, 58, Characters);
+                    case 4:
+                        DisplayWitch(44, 58, Characters, "[grey66]");
                         break;
-                    case ConsoleKey.D5:
-                    case ConsoleKey.NumPad5:
-                        Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                        DisplayWitch(58, 72, Characters);
+                    case 5:
+                        DisplayWitch(58, 72, Characters, "[purple_1]");
                         break;
-                    case ConsoleKey.D6:
-                    case ConsoleKey.NumPad6:
-                        Console.ForegroundColor = ConsoleColor.White;
-                        DisplayWitch(72, Characters.Length, Characters);
+                    case 6:
+                        DisplayWitch(72, Characters.Length, Characters, "[white]");
                         break;
-                    case ConsoleKey.D7:
-                    case ConsoleKey.NumPad7:
+                    case 7:
                         return;
                     default:
                         break;
@@ -157,27 +105,17 @@ namespace Game.Visuals
                 Console.ReadKey();
             }
         }
-        private void PrintWitchesInfo()
-        {
-            System.Console.WriteLine("Personajes:");
-            System.Console.WriteLine("1- Bruja de agua");
-            System.Console.WriteLine("2- Bruja de tierra");
-            System.Console.WriteLine("3- Bruja de Fuego");
-            System.Console.WriteLine("4- Bruja de Aire");
-            System.Console.WriteLine("5- Bruja de Oscuridad");
-            System.Console.WriteLine("6- Bruja de Luz");
-            System.Console.WriteLine("7- Volver al menu principal");
-        }
-        private void DisplayWitch(int start, int end, string[] Characters)
+        private void DisplayWitch(int start, int end, string[] Characters, string Color)
         {
             Console.Clear();
-            Console.WriteLine(Characters[0]);
-            Console.WriteLine(Characters[1]);
+            AnsiConsole.Markup("[lightyellow3][underline][bold]" + Characters[0] + "[/][/][/]");
+            Console.WriteLine();
+            Console.WriteLine();
             for (int i = start; i < end; i++)
             {
-                System.Console.WriteLine(Characters[i]);
+                AnsiConsole.Markup(Color + Characters[i] + "[/]");
+                System.Console.WriteLine();
             }
-            Console.ForegroundColor = ConsoleColor.Gray;
         }
         private string[] LoadCharacters()
         {
@@ -189,17 +127,16 @@ namespace Game.Visuals
             }
             return Characters;
         }
-        public void PrintMenu()
+        public int PrintMenu()
         {
-            System.Console.WriteLine("--Witches Maze Runners--\n");
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            System.Console.WriteLine("[N]uevo Juego");
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-            System.Console.WriteLine("[P]ersonajes");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            System.Console.WriteLine("[S]alir");
-            Console.ForegroundColor = ConsoleColor.Gray;
-            System.Console.WriteLine("Presiona una tecla para continuar...");
+            List<(string, int)> menu = new List<(string, int)> { ("[chartreuse3]Nuevo Juego[/]", 1), ("[darkturquoise]Personajes[/]", 2), ("[red3_1]Salir[/]", 0) };
+            string MenuDisplay = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                .Title("[lightyellow3]--Witches Maze Runners--[/]")
+                .PageSize(10)
+                .AddChoices(menu.Select(x => x.Item1))
+            );
+            return menu.FirstOrDefault(x => x.Item1 == MenuDisplay).Item2;
         }
     }
 }

@@ -1,5 +1,6 @@
 using Game.Model;
 using Game.Model.MazeNamespace;
+using Game.Model.WitchesAndPlayersNamespace;
 using Game.Visuals;
 namespace Game.Contoller
 {
@@ -10,24 +11,20 @@ namespace Game.Contoller
         private GameVisuals gameVisuals = new GameVisuals();
         public void Start()
         {
-            gameVisuals.SelectVisual();
             while (true)
             {
                 Console.Clear();
-                gameVisuals.PrintMenu();
-                ConsoleKeyInfo key = Console.ReadKey();
-                switch (key.Key)
+                int index = gameVisuals.PrintMenu();
+                switch (index)
                 {
-                    case ConsoleKey.N:
-                    case ConsoleKey.Enter:
+                    case 1:
                         newGame();
                         break;
 
-                    case ConsoleKey.P:
+                    case 2:
                         gameVisuals.Characters();
                         break;
-                    case ConsoleKey.Escape:
-                    case ConsoleKey.S:
+                    case 0:
                         Console.Clear();
 
                         return;
@@ -76,8 +73,7 @@ namespace Game.Contoller
         private void Print(int remainingMoves)
         {
 
-            gameVisuals.PrintMaze(gameModel!);
-            System.Console.WriteLine($"Movimientos restantes: {remainingMoves}");
+            gameVisuals.PrintMaze(gameModel!, remainingMoves);
             gameVisuals.PrintSMS(gameModel!.Narration);
         }
         private bool MoveOrHability(int remainingMoves)
@@ -144,14 +140,19 @@ namespace Game.Contoller
         private bool CharactersSelection(int? NumberOfPlayers)
         {
             if (NumberOfPlayers == null) return false;
-            bool[] AvailableCharacter = { true, true, true, true, true, true };
+            List<(string,Witches)> witches = new List<(string,Witches)>(){("[blue1]Bruja de Agua[/]",new Water()), 
+            ("[green4]Bruja de Tierra[/]",new Earth()), 
+            ("[orangered1]Bruja de Fuego[/]",new Fire()),
+            ("[grey66]Bruja de Aire[/]",new Air()), 
+            ("[purple_1]Bruja de Oscuridad[/]",new Darkness()), 
+            ("[white]Bruja de Luz[/]",new Light())};
             int index;
             this.NumberOfPlayers = (int)NumberOfPlayers;
             for (int i = 0; i < NumberOfPlayers; i++)
             {
-                (index, Player? player) = gameVisuals.AddPlayer(AvailableCharacter);
+                (index, Player? player) = gameVisuals.AddPlayer(witches);
                 if (player == null) return false;
-                AvailableCharacter[index] = false;
+                witches.Remove(witches[index]);
                 gameModel!.AddCharacter(player);
             }
             return true;

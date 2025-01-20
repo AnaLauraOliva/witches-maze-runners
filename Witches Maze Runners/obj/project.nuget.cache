@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "c61z8v0WAUg=",
+  "dgSpecHash": "lgzoFTDGeAQ=",
   "success": true,
   "projectFilePath": "C:\\Antonella\\Games\\Proyecto\\Witches Maze Runners\\Witches Maze Runners.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\usera\\.nuget\\packages\\spectre.console\\0.49.1\\spectre.console.0.49.1.nupkg.sha512"
+  ],
   "logs": []
 }
