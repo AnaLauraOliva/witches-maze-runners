@@ -1,8 +1,10 @@
 using System.Reflection.PortableExecutable;
 using System.Xml.Serialization;
 using Game.Model;
+using System;
 using Game.Model.MazeNamespace;
 using Game.Model.WitchesAndPlayersNamespace;
+using Spectre.Console;
 
 namespace Game.Visuals
 {
@@ -10,11 +12,6 @@ namespace Game.Visuals
     {
         MenuVisuals menus = new MenuVisuals();
         MazeVisuals maze = new MazeVisuals();
-        private void PrintSelectVisualMenu()
-        {
-            System.Console.WriteLine("¿Está jugando en el cmd de Windows o en la terminal de vsCode?\n(o en algo similar a ellos)");
-            System.Console.WriteLine("1- vsCode\n2- cmd");
-        }
         public int PrintMenu() => menus.PrintMenu();
         public int Difficulty() => menus.SetDifficultyMenu();
         public int? PlayersCount() => menus.SelectNumberOfPlayers();
@@ -30,9 +27,40 @@ namespace Game.Visuals
             System.Console.WriteLine("Puesto |Jugador");
             for (int i = 0; i < Winners.Count; i++)
             {
-                System.Console.WriteLine($"{i + 1}     |{Winners[i]}");
+                System.Console.WriteLine($"{i + 1}      |{Winners[i]}");
             }
-            System.Console.WriteLine("Felicidades para los ganadores :)");
+
+            var x = @"          
+   ▄████████    ▄████████  ▄█        ▄█   ▄████████  ▄█  ████████▄     ▄████████ ████████▄     ▄████████    ▄████████ 
+  ███    ███   ███    ███ ███       ███  ███    ███ ███  ███   ▀███   ███    ███ ███   ▀███   ███    ███   ███    ███ 
+  ███    █▀    ███    █▀  ███       ███▌ ███    █▀  ███▌ ███    ███   ███    ███ ███    ███   ███    █▀    ███    █▀  
+ ▄███▄▄▄      ▄███▄▄▄     ███       ███▌ ███        ███▌ ███    ███   ███    ███ ███    ███  ▄███▄▄▄       ███        
+▀▀███▀▀▀     ▀▀███▀▀▀     ███       ███▌ ███        ███▌ ███    ███ ▀███████████ ███    ███ ▀▀███▀▀▀     ▀███████████ 
+  ███          ███    █▄  ███       ███  ███    █▄  ███  ███    ███   ███    ███ ███    ███   ███    █▄           ███ 
+  ███          ███    ███ ███▌    ▄ ███  ███    ███ ███  ███   ▄███   ███    ███ ███   ▄███   ███    ███    ▄█    ███ 
+  ███          ██████████ █████▄▄██ █▀   ████████▀  █▀   ████████▀    ███    █▀  ████████▀    ██████████  ▄████████▀  
+                          ▀                                                                                           
+   ▄███████▄    ▄████████    ▄████████    ▄████████       ▄█        ▄██████▄     ▄████████                            
+  ███    ███   ███    ███   ███    ███   ███    ███      ███       ███    ███   ███    ███                            
+  ███    ███   ███    ███   ███    ███   ███    ███      ███       ███    ███   ███    █▀                             
+  ███    ███   ███    ███  ▄███▄▄▄▄██▀   ███    ███      ███       ███    ███   ███                                   
+▀█████████▀  ▀███████████ ▀▀███▀▀▀▀▀   ▀███████████      ███       ███    ███ ▀███████████                            
+  ███          ███    ███ ▀███████████   ███    ███      ███       ███    ███          ███                            
+  ███          ███    ███   ███    ███   ███    ███      ███▌    ▄ ███    ███    ▄█    ███                            
+ ▄████▀        ███    █▀    ███    ███   ███    █▀       █████▄▄██  ▀██████▀   ▄████████▀                             
+                            ███    ███                   ▀                                                            
+   ▄██████▄     ▄████████ ███▄▄▄▄      ▄████████ ████████▄   ▄██████▄     ▄████████    ▄████████    ▄████████         
+  ███    ███   ███    ███ ███▀▀▀██▄   ███    ███ ███   ▀███ ███    ███   ███    ███   ███    ███   ███    ███         
+  ███    █▀    ███    ███ ███   ███   ███    ███ ███    ███ ███    ███   ███    ███   ███    █▀    ███    █▀          
+ ▄███          ███    ███ ███   ███   ███    ███ ███    ███ ███    ███  ▄███▄▄▄▄██▀  ▄███▄▄▄       ███                
+▀▀███ ████▄  ▀███████████ ███   ███ ▀███████████ ███    ███ ███    ███ ▀▀███▀▀▀▀▀   ▀▀███▀▀▀     ▀███████████         
+  ███    ███   ███    ███ ███   ███   ███    ███ ███    ███ ███    ███ ▀███████████   ███    █▄           ███         
+  ███    ███   ███    ███ ███   ███   ███    ███ ███   ▄███ ███    ███   ███    ███   ███    ███    ▄█    ███         
+  ████████▀    ███    █▀   ▀█   █▀    ███    █▀  ████████▀   ▀██████▀    ███    ███   ██████████  ▄████████▀          
+                                                                         ███    ███                                   
+                                                                 
+";
+            AnsiConsole.MarkupLine("[lime]" + x + "[/]");
             System.Console.WriteLine();
             System.Console.WriteLine("Persiona cualquier tecla para volver al menu principal");
             Console.ReadKey();

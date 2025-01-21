@@ -32,7 +32,9 @@ namespace Game.Visuals
                 .Title("[lightyellow3][underline][bold]Selección de Personajes:[/][/][/]")
                 .PageSize(10)
                 .AddChoices(witches.Select(x => x.Item1))
+                .AddChoices("Volver al menú principal")
             );
+            if(witchName == "Volver al menú principal") return (0, null);
             Witches witch = witches.FirstOrDefault(x => x.Item1 == witchName).Item2;
             return (witches.IndexOf((witchName, witch)), new Player(name, witch));
         }
@@ -129,12 +131,23 @@ namespace Game.Visuals
         }
         public int PrintMenu()
         {
+            var x = @"
+     _     __          __ _  _         _                  __  __                    _____                                      _    
+  /\| |/\  \ \        / /(_)| |       | |                |  \/  |                  |  __ \                                  /\| |/\ 
+  \ ` ' /   \ \  /\  / /  _ | |_  ___ | |__    ___  ___  | \  / |  __ _  ____ ___  | |__) |_   _  _ __   _ __    ___  ___   \ ` ' / 
+ |_     _|   \ \/  \/ /  | || __|/ __|| '_ \  / _ \/ __| | |\/| | / _` ||_  // _ \ |  _  /| | | || '_ \ | '_ \  / _ \/ __| |_     _|
+  / , . \     \  /\  /   | || |_| (__ | | | ||  __/\__ \ | |  | || (_| | / /|  __/ | | \ \| |_| || | | || | | ||  __/\__ \  / , . \ 
+  \/|_|\/      \/  \/    |_| \__|\___||_| |_| \___||___/ |_|  |_| \__,_|/___|\___| |_|  \_\\__,_||_| |_||_| |_| \___||___/  \/|_|\/ 
+                                                                                                                                    
+                                                                                                                                    
+";
             List<(string, int)> menu = new List<(string, int)> { ("[chartreuse3]Nuevo Juego[/]", 1), ("[darkturquoise]Personajes[/]", 2), ("[red3_1]Salir[/]", 0) };
             string MenuDisplay = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                .Title("[lightyellow3]--Witches Maze Runners--[/]")
+                .Title($"[lightyellow3]{x}[/]")
                 .PageSize(10)
                 .AddChoices(menu.Select(x => x.Item1))
+                
             );
             return menu.FirstOrDefault(x => x.Item1 == MenuDisplay).Item2;
         }
