@@ -25,9 +25,8 @@ namespace Game.Model
         public void Attack()
         {
 
-            if (players[CurrentTurn].Attack(players))
+            if (players[CurrentTurn].Attack(players, Narration))
             {
-                Narration.Add(players[CurrentTurn].Witch.AttackSkill!);
                 for (int i = 0; i < players.Count; i++)
                 {
                     if (players[i].PlayerDeath(Narration))
@@ -63,11 +62,7 @@ namespace Game.Model
                 players[CurrentTurn].UpdatePlayerPosition(PlayerPosition.Item1, PlayerPosition.Item2);
                 if (gameboard.FallIntoTrap(PlayerPosition))
                 {
-                    if (!players[CurrentTurn].ConvertToEffect(gameboard.Effect(PlayerPosition), Narration))
-                    {
-                        Narration.Add($"{players[CurrentTurn].Name} ha caído en una trampa de teletransportación");
-                        IniPlayer();
-                    }
+                    gameboard.Effect(players[CurrentTurn], Narration);
                 }
                 if (players[CurrentTurn].PlayerDeath(Narration)) IniPlayer();
 

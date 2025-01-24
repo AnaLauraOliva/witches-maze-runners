@@ -15,10 +15,10 @@ namespace Game.Model.MazeNamespace
             Traps = true;
             trapsAndTreasures = new TrapsAndTreasures(code);
         }
-        public int FallIntoTrap()
+        public void FallIntoTrap(Player currentPlayer,List<string> Narration, Gameboard gameboard)
         {
             Traps = false;
-            return trapsAndTreasures.FallIntoTrap();
+            trapsAndTreasures.FallIntoTrap(currentPlayer, Narration, gameboard);
         }
         public void  MakeAvailable()
         {

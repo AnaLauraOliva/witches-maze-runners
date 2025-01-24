@@ -4,14 +4,10 @@ namespace Game.Model
 {
     class Player
     {
-        private enum EffectsDurationCodes
-        {
-            Freeze = 0,
-            LossOfSpeed = 1
-        }
+
         public string Name { get; private set; }
         public Witches Witch { get; private set; }
-        private int HP;
+        public int HP { get; private set; }
         private (int, int) position;
         private int[] EffectsDuration = new int[2];
         public Player(string name, Witches witch)
@@ -31,18 +27,22 @@ namespace Game.Model
             EffectsDuration[(int)EffectsDurationCodes.LossOfSpeed] == 0)
                 Witch.RecoverSpeed();
         }
-        public bool Attack(List<Player> players)
+        public bool Attack(List<Player> players, List<string> Narration)
         {
             int damage = Witch.Attack();
             if (damage == 100 && this.HP > 50) this.HP -= 50;
             else if (damage == 100 && this.HP <= 50) return false;
             if (damage > 0)
             {
+                Narration.Add(Witch.AttackSkill!);
                 for (int i = 0; i < players.Count; i++)
                 {
                     if (Conditions(players[i]))
                     {
-                        if (players[i].Witch.IsImmune()) players[i].Witch.DefenseUsed();
+                        if (players[i].Witch.IsImmune())
+                        { 
+                            Narration.Add($"{players[i].Name} usó la defensa para evitar el ataque");
+                            players[i].Witch.DefenseUsed(); }
                         else
                         {
                             players[i].HP -= damage;
@@ -85,41 +85,8 @@ namespace Game.Model
             }
             return false;
         }
-        public bool ConvertToEffect(int Effect, List<string> Narration)
-        {
-            switch (Effect)
-            {
-                case 0:
-                    return false;
-                case 1:
-                    if (!Witch.IsDefrost())
-                    {
-                        EffectsDuration[(int)EffectsDurationCodes.Freeze] = 3;
-                        Narration.Add($"{Name} cayó en una trampa de congelamiento");
-                    }
-                    else{Narration.Add($"{Name} usó su habilidad para evitar el congelamiento");}
-                    break;
-                case 2:
-                    EffectsDuration[(int)EffectsDurationCodes.LossOfSpeed] = 3;
-                    Witch.LossOfSpeed();
-                    Narration.Add($"{Name} cayó en una trampa de pérdida de velocidad");
-                    break;
-                case 3:
-                    HP -= 15;
-                    Narration.Add($"{Name} cayó en una trampa de daño");
-                    break;
-                case 4:
-                    HP = HP > 90 ? 100 : HP + 10;
-                    Narration.Add($"{Name} recuperó puntos de vida, HP actual:{HP}");
-                    break;
-                case 5:
-                    EffectsDuration[(int)EffectsDurationCodes.LossOfSpeed] = 0;
-                    Witch.retoreSpeedTreasure();
-                    Narration.Add($"{Name} recuperó todos tus puntos de velocidad");
-                    break;
-            }
-            return true;
-        }
+        internal void ChangeHP(int damage) => HP = damage<0?HP+damage:HP>=90?100:HP+damage;
+        internal void TrapsEffects(int time, int index) => EffectsDuration[index] = time == 0 ? EffectsDuration[index] = 0 : EffectsDuration[index] += time;
         public override string ToString()
         {
 

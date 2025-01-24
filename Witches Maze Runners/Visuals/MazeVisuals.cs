@@ -37,6 +37,7 @@ namespace Game.Visuals
             }
             AnsiConsole.MarkupLine("[lightyellow3]" + players[gameModel.GetCurrentTurn() % players.Count].ToString() + "[/]");
             AnsiConsole.MarkupLine($"[lightyellow3]Cantidad de movimientos restantes {remainingMoves}[/]");
+            AnsiConsole.MarkupLine("[lightyellow3]Presiona escape para volver al menú principal[/]");
 
         }
         private string[,] GetGameboard(Cells[,] maze, List<Player> players, int currentPlayer)

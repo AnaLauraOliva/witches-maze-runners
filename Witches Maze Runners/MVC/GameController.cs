@@ -48,8 +48,9 @@ namespace Game.Contoller
                     if (firstTurn && remainingMoves == gameModel!.GetSpeed())
                         gameModel.IniPlayer();
                     Print(remainingMoves);
-                    bool MoveCode = MoveOrHability(remainingMoves);
-                    if (MoveCode) remainingMoves--;
+                    bool? MoveCode = MoveOrHability(remainingMoves);
+                    if(MoveCode == null) return;
+                    else if (MoveCode == true) remainingMoves--;
                     else { remainingMoves = 0; }
                     if (gameModel.GameWin())
                     {
@@ -57,7 +58,8 @@ namespace Game.Contoller
                         remainingMoves = gameModel!.GetSpeed();
                         continue;
                     }
-                    if (remainingMoves == 0 || remainingMoves >= gameModel.GetSpeed())
+                    if(gameModel.GetSpeed() ==3 && remainingMoves >= gameModel.GetSpeed()) remainingMoves = 2;
+                    else if (remainingMoves == 0 || remainingMoves >= gameModel.GetSpeed())
                     {
                         gameModel.ReduceEffects();
                         gameModel.NextTurn();
@@ -76,7 +78,7 @@ namespace Game.Contoller
             gameVisuals.PrintMaze(gameModel!, remainingMoves);
             gameVisuals.PrintSMS(gameModel!.Narration);
         }
-        private bool MoveOrHability(int remainingMoves)
+        private bool? MoveOrHability(int remainingMoves)
         {
             if (gameModel!.HasEffects())
             {
@@ -114,7 +116,12 @@ namespace Game.Contoller
                             continue;
                         case ConsoleKey.K:
                             gameModel.Defense();
-
+                            remainingMoves = remainingMoves>3?3: remainingMoves;
+                            Print(remainingMoves);
+                            continue;
+                            case ConsoleKey.Escape:
+                            if(gameVisuals.BackToMainMenu())
+                            return null;
                             Print(remainingMoves);
                             continue;
                         default:
