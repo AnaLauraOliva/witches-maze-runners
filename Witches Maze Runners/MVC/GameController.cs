@@ -48,7 +48,7 @@ namespace Game.Contoller
                     if (firstTurn && remainingMoves == gameModel!.GetSpeed())
                         gameModel.IniPlayer();
                     Print(remainingMoves);
-                    bool? MoveCode = MoveOrHability(remainingMoves);
+                    bool? MoveCode = MoveOrSkill(remainingMoves);
                     if(MoveCode == null) return;
                     else if (MoveCode == true) remainingMoves--;
                     else { remainingMoves = 0; }
@@ -78,7 +78,7 @@ namespace Game.Contoller
             gameVisuals.PrintMaze(gameModel!, remainingMoves);
             gameVisuals.PrintSMS(gameModel!.Narration);
         }
-        private bool? MoveOrHability(int remainingMoves)
+        private bool? MoveOrSkill(int remainingMoves)
         {
             if (gameModel!.HasEffects())
             {
