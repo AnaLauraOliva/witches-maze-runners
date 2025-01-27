@@ -17,13 +17,13 @@ Existen trampas y tesoros:
 
 -Trampa de teletransportación: el jugador es teletransportado al punto de inicio.
 
--Trampa de pédida de velocidad: la velocidad se reduce a un movimiento.
+-Trampa de pérdida de velocidad: la velocidad se reduce a un movimiento.
 
 -Trampa de daño: resta 15 puntos de vida al jugador.
 
 -Tesoro de sanación: recuperas 10 puntos de vida (si tienes más de 90 recuperas lo que te queda para que sean 100).
 
--Tesoro de recuperación: anula el efecto de la pérdida de velocidad tanto de la trampa como del tiempo de enfriamiento de la defensa.
+-Tesoro de recuperación de velocidad: anula el efecto de la pérdida de velocidad tanto de la trampa como del tiempo de enfriamiento de la defensa.
 
 
 
