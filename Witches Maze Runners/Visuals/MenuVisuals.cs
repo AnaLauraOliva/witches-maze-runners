@@ -13,7 +13,7 @@ namespace Game.Visuals
             List<(string, int?)> options = new List<(string, int?)>() { ("2 Jugadores", 2), ("3 Jugadores", 3), ("4 Jugadores", 4), ("5 Jugadores", 5), ("6 Jugadores", 6), ("Volver al menú principal", null) };
             string NumberOfPlayers = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                .Title("[lightyellow3][underline][bold]Selecciona la cantidad de jugadores:[/][/][/]")
+                .Title("[gold1][underline][bold]Selecciona la cantidad de jugadores:[/][/][/]")
                 .PageSize(10)
                 .AddChoices(options.Select(x => x.Item1))
             );
@@ -22,14 +22,14 @@ namespace Game.Visuals
         public (int, Player?) AddPlayer(List<(string, Witches)> witches)
         {
             Console.Clear();
-            AnsiConsole.Markup("[lightyellow3][underline][bold]Introduce el nombre de tu jugador:[/][/][/]");
+            AnsiConsole.Markup("[gold1][underline][bold]Introduce el nombre de tu jugador:[/][/][/]");
             System.Console.WriteLine();
             string? name = Console.ReadLine();
             name = name == null ? "Jugador sin nombre" : name;
             Console.Clear();
             string witchName = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                .Title("[lightyellow3][underline][bold]Selección de Personajes:[/][/][/]")
+                .Title("[gold1][underline][bold]Selección de Personajes:[/][/][/]")
                 .PageSize(10)
                 .AddChoices(witches.Select(x => x.Item1))
                 .AddChoices("Volver al menú principal")
@@ -40,7 +40,7 @@ namespace Game.Visuals
         }
         public int SetDifficultyMenu()
         {
-            AnsiConsole.Markup("[lightyellow3][underline][bold]Selecciona la dificultad:[/][/][/]");
+            AnsiConsole.Markup("[gold1][underline][bold]Selecciona la dificultad:[/][/][/]");
             System.Console.WriteLine();
             System.Console.WriteLine();
             List<(string, int)> values = new List<(string, int)>()
@@ -53,7 +53,7 @@ namespace Game.Visuals
 
             string prompt = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title("[lightyellow3][underline][bold]Nivel          |   Dimensión del laberinto(LargoxAncho)[/][/][/]")
+                    .Title("[gold1][underline][bold]Nivel          |   Dimensión del laberinto(LargoxAncho)[/][/][/]")
                     .PageSize(10)
                     .AddChoices(values.Select(x => x.Item1))
 
@@ -66,32 +66,32 @@ namespace Game.Visuals
             {
                 Console.Clear();
                 string[] Characters = LoadCharacters();
-                List<(string,int)> Choices = new List<(string,int)>(){("[blue1]Bruja de Agua[/]",1), 
-            ("[green4]Bruja de Tierra[/]",2), 
-            ("[orangered1]Bruja de Fuego[/]",3),
-            ("[grey66]Bruja de Aire[/]",4), 
+                List<(string,int)> Choices = new List<(string,int)>(){("[dodgerblue1]Bruja de Agua[/]",1), 
+            ("[green3_1]Bruja de Tierra[/]",2), 
+            ("[darkorange]Bruja de Fuego[/]",3),
+            ("[grey70]Bruja de Aire[/]",4), 
             ("[purple_1]Bruja de Oscuridad[/]",5), 
             ("[white]Bruja de Luz[/]",6),
             ("Volver al menú principal",7)};
             string Choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                .Title("[lightyellow3][underline][bold]Personajes:[/][/][/]")
+                .Title("[gold1][underline][bold]Personajes:[/][/][/]")
                 .PageSize(10)
                 .AddChoices(Choices.Select(x => x.Item1))
             );
                 switch (Choices.FirstOrDefault(x=>x.Item1 == Choice).Item2)
                 {
                     case 1:
-                        DisplayWitch(2, 16, Characters, "[blue1]");
+                        DisplayWitch(2, 16, Characters, "[dodgerblue1]");
                         break;
                     case 2:
-                        DisplayWitch(16, 30, Characters, "[green4]");
+                        DisplayWitch(16, 30, Characters, "[green3_1]");
                         break;
                     case 3:
-                        DisplayWitch(30, 44, Characters, "[orangered1]");
+                        DisplayWitch(30, 44, Characters, "[darkorange]");
                         break;
                     case 4:
-                        DisplayWitch(44, 58, Characters, "[grey66]");
+                        DisplayWitch(44, 58, Characters, "[grey70]");
                         break;
                     case 5:
                         DisplayWitch(58, 72, Characters, "[purple_1]");
@@ -110,7 +110,7 @@ namespace Game.Visuals
         private void DisplayWitch(int start, int end, string[] Characters, string Color)
         {
             Console.Clear();
-            AnsiConsole.Markup("[lightyellow3][underline][bold]" + Characters[0] + "[/][/][/]");
+            AnsiConsole.Markup("[gold1][underline][bold]" + Characters[0] + "[/][/][/]");
             Console.WriteLine();
             Console.WriteLine();
             for (int i = start; i < end; i++)
@@ -132,19 +132,32 @@ namespace Game.Visuals
         public int PrintMenu()
         {
             var x = @"
-     _     __          __ _  _         _                  __  __                    _____                                      _    
-  /\| |/\  \ \        / /(_)| |       | |                |  \/  |                  |  __ \                                  /\| |/\ 
-  \ ` ' /   \ \  /\  / /  _ | |_  ___ | |__    ___  ___  | \  / |  __ _  ____ ___  | |__) |_   _  _ __   _ __    ___  ___   \ ` ' / 
- |_     _|   \ \/  \/ /  | || __|/ __|| '_ \  / _ \/ __| | |\/| | / _` ||_  // _ \ |  _  /| | | || '_ \ | '_ \  / _ \/ __| |_     _|
-  / , . \     \  /\  /   | || |_| (__ | | | ||  __/\__ \ | |  | || (_| | / /|  __/ | | \ \| |_| || | | || | | ||  __/\__ \  / , . \ 
-  \/|_|\/      \/  \/    |_| \__|\___||_| |_| \___||___/ |_|  |_| \__,_|/___|\___| |_|  \_\\__,_||_| |_||_| |_| \___||___/  \/|_|\/ 
-                                                                                                                                    
-                                                                                                                                    
+          ██╗    ██╗██╗████████╗ ██████╗██╗  ██╗███████╗███████╗              
+▄ ██╗▄    ██║    ██║██║╚══██╔══╝██╔════╝██║  ██║██╔════╝██╔════╝              
+ ████╗    ██║ █╗ ██║██║   ██║   ██║     ███████║█████╗  ███████╗              
+▀╚██╔▀    ██║███╗██║██║   ██║   ██║     ██╔══██║██╔══╝  ╚════██║              
+  ╚═╝     ╚███╔███╔╝██║   ██║   ╚██████╗██║  ██║███████╗███████║              
+           ╚══╝╚══╝ ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝              
+                                                                              
+                ███╗   ███╗ █████╗ ███████╗███████╗                           
+                ████╗ ████║██╔══██╗╚══███╔╝██╔════╝                           
+                ██╔████╔██║███████║  ███╔╝ █████╗                             
+                ██║╚██╔╝██║██╔══██║ ███╔╝  ██╔══╝                             
+                ██║ ╚═╝ ██║██║  ██║███████╗███████╗                           
+                ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝                           
+                                                                              
+       ██████╗ ██╗   ██╗███╗   ██╗███╗   ██╗███████╗██████╗ ███████╗          
+       ██╔══██╗██║   ██║████╗  ██║████╗  ██║██╔════╝██╔══██╗██╔════╝    ▄ ██╗▄
+       ██████╔╝██║   ██║██╔██╗ ██║██╔██╗ ██║█████╗  ██████╔╝███████╗     ████╗
+       ██╔══██╗██║   ██║██║╚██╗██║██║╚██╗██║██╔══╝  ██╔══██╗╚════██║    ▀╚██╔▀
+       ██║  ██║╚██████╔╝██║ ╚████║██║ ╚████║███████╗██║  ██║███████║      ╚═╝ 
+       ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚══════╝          
+                                                                              
 ";
-            List<(string, int)> menu = new List<(string, int)> { ("[chartreuse3]Nuevo Juego[/]", 1), ("[darkturquoise]Personajes[/]", 2), ("[red3_1]Salir[/]", 0) };
+            List<(string, int)> menu = new List<(string, int)> { ("[chartreuse1]Nuevo Juego[/]", 1), ("[aqua]Personajes[/]", 2), ("[red]Salir[/]", 0) };
             string MenuDisplay = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                .Title($"[lightyellow3]{x}[/]")
+                .Title($"[gold1]{x}[/]")
                 .PageSize(10)
                 .AddChoices(menu.Select(x => x.Item1))
                 

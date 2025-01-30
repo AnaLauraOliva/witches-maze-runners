@@ -147,10 +147,10 @@ namespace Game.Contoller
         private bool CharactersSelection(int? NumberOfPlayers)
         {
             if (NumberOfPlayers == null) return false;
-            List<(string,Witches)> witches = new List<(string,Witches)>(){("[blue1]Bruja de Agua[/]",new Water()), 
-            ("[green4]Bruja de Tierra[/]",new Earth()), 
-            ("[orangered1]Bruja de Fuego[/]",new Fire()),
-            ("[grey66]Bruja de Aire[/]",new Air()), 
+            List<(string,Witches)> witches = new List<(string,Witches)>(){("[dodgerblue1]Bruja de Agua[/]",new Water()), 
+            ("[green3_1]Bruja de Tierra[/]",new Earth()), 
+            ("[darkorange]Bruja de Fuego[/]",new Fire()),
+            ("[grey70]Bruja de Aire[/]",new Air()), 
             ("[purple_1]Bruja de Oscuridad[/]",new Darkness()), 
             ("[white]Bruja de Luz[/]",new Light())};
             int index;

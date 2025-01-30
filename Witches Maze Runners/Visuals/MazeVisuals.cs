@@ -35,9 +35,9 @@ namespace Game.Visuals
                 }
                 System.Console.WriteLine();
             }
-            AnsiConsole.MarkupLine("[lightyellow3]" + players[gameModel.GetCurrentTurn() % players.Count].ToString() + "[/]");
-            AnsiConsole.MarkupLine($"[lightyellow3]Cantidad de movimientos restantes {remainingMoves}[/]");
-            AnsiConsole.MarkupLine("[lightyellow3]Presiona escape para volver al menú principal[/]");
+            AnsiConsole.MarkupLine("[gold1]" + players[gameModel.GetCurrentTurn() % players.Count].ToString() + "[/]");
+            AnsiConsole.MarkupLine($"[gold1]Cantidad de movimientos restantes {remainingMoves}[/]");
+            AnsiConsole.MarkupLine("[gold1]Presiona escape para volver al menú principal[/]");
 
         }
         private string[,] GetGameboard(Cells[,] maze, List<Player> players, int currentPlayer)
@@ -79,10 +79,10 @@ namespace Game.Visuals
         }
         public void PrintNarration(List<string> Narration)
         {
-            AnsiConsole.MarkupLine("[lightyellow3]Mensajes:[/]");
+            AnsiConsole.MarkupLine("[gold1]Mensajes:[/]");
             for (int i = 0; i < Narration.Count; i++)
             {
-                AnsiConsole.MarkupLine("[lightyellow3]" + Narration[i] + "[/]");
+                AnsiConsole.MarkupLine("[gold1]" + Narration[i] + "[/]");
             }
         }
 
