@@ -40,3 +40,6 @@ Derecha: D o Right Arrow
 Ataque: L
 
 Defensa: K
+
+
+Para comenzar a jugar (hay que instalar dotnet) basta con abrir la consola en la ruta donde está el juego y poner dotnet run
